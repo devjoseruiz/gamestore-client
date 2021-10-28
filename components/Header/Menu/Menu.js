@@ -8,11 +8,14 @@ import {
 } from "semantic-ui-react";
 import Link from "next/link";
 import BaseModal from "../../Modal/BaseModal";
+import Auth from "../../Auth";
 
 export default function Menu() {
   const [showModal, setShowModal] = useState(false);
+  const [titleModal, setTitleModal] = useState("Sign in");
 
-  const OnShowModal = () => setShowModal(true);
+  const onShowModal = () => setShowModal(true);
+  const onCloseModal = () => setShowModal(false);
 
   return (
     <div className="menu">
@@ -22,15 +25,17 @@ export default function Menu() {
             <MenuPlatforms />
           </Grid.Column>
           <Grid.Column className="menu__right" width={10}>
-            <MenuUser onShow={OnShowModal} />
+            <MenuUser onShowModal={onShowModal} />
           </Grid.Column>
         </Grid>
       </Container>
       <BaseModal
-        show={showModal}
-        setShow={setShowModal}
-        title="Account"
-      ></BaseModal>
+        showModal={showModal}
+        setShowModal={setShowModal}
+        title={titleModal}
+      >
+        <Auth setTitleModal={setTitleModal} />
+      </BaseModal>
     </div>
   );
 }
@@ -55,16 +60,14 @@ function MenuPlatforms() {
 }
 
 function MenuUser(props) {
-  const { onShow } = props;
+  const { onShowModal } = props;
 
   return (
     <MenuSUI>
-      <Link href="#">
-        <MenuSUI.Item onClick={onShow} as="a">
-          <Icon name="user outline" />
-          My account
-        </MenuSUI.Item>
-      </Link>
+      <MenuSUI.Item onClick={onShowModal} as="a">
+        <Icon name="user outline" />
+        My account
+      </MenuSUI.Item>
     </MenuSUI>
   );
 }

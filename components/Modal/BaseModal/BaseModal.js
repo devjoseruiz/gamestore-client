@@ -1,12 +1,12 @@
 import { Modal, Icon } from "semantic-ui-react";
 
 export default function BaseModal(props) {
-  const { show, setShow, title, children, ...rest } = props;
+  const { showModal, setShowModal, title, children, ...rest } = props;
 
-  const onClose = () => setShow(false);
+  const onClose = () => setShowModal(false);
 
   return (
-    <Modal className="base-modal" open={show} onClose={onClose} {...rest}>
+    <Modal className="base-modal" open={showModal} onClose={onClose} {...rest}>
       <Modal.Header>
         <span>{title}</span> <Icon name="close" onClick={onClose} />
       </Modal.Header>
