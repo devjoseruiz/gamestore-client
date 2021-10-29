@@ -3,14 +3,33 @@ import { Form, Button } from "semantic-ui-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { registerApi } from "../../../api/user";
+import { toast } from "react-toastify";
 
 export default function RegisterForm(props) {
   const { showLoginForm } = props;
+  const [loading, setLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
-    onSubmit: (formData) => {
-      registerApi(formData);
+    onSubmit: async (formData) => {
+      setLoading(true);
+      const response = await registerApi(formData);
+      if (response?.jwt) {
+        toast.success("User registered successfully!", {
+          theme: "colored",
+        });
+        showLoginForm();
+      } else {
+        const message =
+          response === null
+            ? "Network is unreachable"
+            : response?.data[0].messages[0].message;
+        toast.error(message, {
+          theme: "colored",
+        });
+      }
+      setLoading(false);
     },
   });
 
@@ -52,7 +71,7 @@ export default function RegisterForm(props) {
         error={formik.errors.password}
       />
       <div className="actions">
-        <Button type="submit" className="submit">
+        <Button type="submit" className="submit" loading={loading}>
           Register
         </Button>
         <Button type="button" onClick={showLoginForm} basic>
