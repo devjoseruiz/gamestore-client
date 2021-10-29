@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { Form, Button } from "semantic-ui-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import useAuth from "../../../hooks/useAuth";
 import { loginApi } from "../../../api/user";
 import { toast } from "react-toastify";
 
 export default function LoginForm(props) {
   const { onCloseModal, showRegisterForm } = props;
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -19,6 +21,7 @@ export default function LoginForm(props) {
         toast.success("User logged in successfully!", {
           theme: "colored",
         });
+        login(response.jwt);
         onCloseModal();
       } else {
         const message =
