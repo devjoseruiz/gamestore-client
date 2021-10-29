@@ -2,13 +2,35 @@ import React, { useState } from "react";
 import { Form, Button } from "semantic-ui-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { loginApi } from "../../../api/user";
+import { toast } from "react-toastify";
 
 export default function LoginForm(props) {
-  const { showRegisterForm } = props;
+  const { onCloseModal, showRegisterForm } = props;
+  const [loading, setLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
-    onSubmit: (formData) => {},
+    onSubmit: async (formData) => {
+      setLoading(true);
+      const response = await loginApi(formData);
+      if (response?.jwt) {
+        toast.success("User logged in successfully!", {
+          theme: "colored",
+        });
+        onCloseModal();
+      } else {
+        const message =
+          response === null
+            ? "Network is unreachable"
+            : response?.data[0].messages[0].message;
+        toast.error(message, {
+          theme: "colored",
+        });
+      }
+      setLoading(false);
+    },
   });
 
   return (
@@ -28,7 +50,7 @@ export default function LoginForm(props) {
         error={formik.errors.password}
       />
       <div className="actions">
-        <Button type="submit" className="submit">
+        <Button type="submit" className="submit" loading={loading}>
           Login
         </Button>
         <Button type="button" basic>

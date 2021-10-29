@@ -34,7 +34,7 @@ export default function Menu() {
         setShowModal={setShowModal}
         title={titleModal}
       >
-        <Auth setTitleModal={setTitleModal} />
+        <Auth onCloseModal={onCloseModal} setTitleModal={setTitleModal} />
       </BaseModal>
     </div>
   );
