@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 export default function LoginForm(props) {
   const { onCloseModal, showRegisterForm } = props;
   const [loading, setLoading] = useState(false);
+  const [loadingReset, setLoadingReset] = useState(false);
   const { login } = useAuth();
 
   const formik = useFormik({
@@ -44,7 +45,20 @@ export default function LoginForm(props) {
     if (!validateEmail.isValidSync(formik.values.identifier)) {
       formik.setErrors({ identifier: true });
     } else {
-      resetPasswordApi(formik.values.identifier);
+      (async () => {
+        setLoadingReset(true);
+        const response = await resetPasswordApi(formik.values.identifier);
+        if (response?.ok === true) {
+          toast.success("Recovery email sent!", {
+            theme: "colored",
+          });
+        } else {
+          toast.error("Network is unreachable", {
+            theme: "colored",
+          });
+        }
+        setLoadingReset(false);
+      })();
     }
   };
 
@@ -68,7 +82,12 @@ export default function LoginForm(props) {
         <Button type="submit" className="submit" loading={loading}>
           Login
         </Button>
-        <Button type="button" onClick={resetPassword} basic>
+        <Button
+          type="button"
+          onClick={resetPassword}
+          loading={loadingReset}
+          basic
+        >
           I forgot my password
         </Button>
         <Button type="button" onClick={showRegisterForm} basic>
