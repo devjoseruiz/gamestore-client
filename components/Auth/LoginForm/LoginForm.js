@@ -79,13 +79,19 @@ export default function LoginForm(props) {
         error={formik.errors.password}
       />
       <div className="actions">
-        <Button type="submit" className="submit" loading={loading}>
+        <Button
+          type="submit"
+          className="submit"
+          loading={loading}
+          disabled={loading}
+        >
           Login
         </Button>
         <Button
           type="button"
           onClick={resetPassword}
           loading={loadingReset}
+          disabled={loadingReset}
           basic
         >
           I forgot my password
