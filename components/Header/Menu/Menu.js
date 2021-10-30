@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Menu as MenuSUI,
@@ -9,10 +9,21 @@ import {
 import Link from "next/link";
 import BaseModal from "../../Modal/BaseModal";
 import Auth from "../../Auth";
+import useAuth from "../../../hooks/useAuth";
+import { getMeApi } from "../../../api/user";
 
 export default function Menu() {
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState("Sign in");
+  const [user, setUser] = useState(undefined);
+  const { auth, logout } = useAuth();
+
+  useEffect(() => {
+    (async () => {
+      const response = await getMeApi(logout);
+      setUser(response);
+    })();
+  }, [auth]);
 
   const onShowModal = () => setShowModal(true);
   const onCloseModal = () => setShowModal(false);
@@ -25,7 +36,7 @@ export default function Menu() {
             <MenuPlatforms />
           </Grid.Column>
           <Grid.Column className="menu__right" width={10}>
-            <MenuUser onShowModal={onShowModal} />
+            <MenuUser onShowModal={onShowModal} onLogout={logout} />
           </Grid.Column>
         </Grid>
       </Container>
@@ -60,13 +71,17 @@ function MenuPlatforms() {
 }
 
 function MenuUser(props) {
-  const { onShowModal } = props;
+  const { onLogout, onShowModal } = props;
 
   return (
     <MenuSUI>
       <MenuSUI.Item onClick={onShowModal} as="a">
         <Icon name="user outline" />
         My account
+      </MenuSUI.Item>
+      <MenuSUI.Item onClick={onLogout} as="a">
+        <Icon name="sign-out" />
+        Logout
       </MenuSUI.Item>
     </MenuSUI>
   );

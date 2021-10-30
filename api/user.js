@@ -1,4 +1,5 @@
 import getConfig from "next/config";
+import { authFecth } from "./token";
 
 const {
   publicRuntimeConfig: { host, port },
@@ -53,6 +54,16 @@ export async function resetPasswordApi(email) {
     const response = await fetch(url, params);
     const result = await response.json();
     return result;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getMeApi(logout) {
+  try {
+    const url = `${host}:${port}/users/me`;
+    const result = await authFecth(url, null, logout);
+    return result ? result : null;
   } catch (error) {
     return null;
   }
