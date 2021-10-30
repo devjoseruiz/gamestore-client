@@ -36,7 +36,7 @@ export default function Menu() {
             <MenuPlatforms />
           </Grid.Column>
           <Grid.Column className="menu__right" width={10}>
-            <MenuUser onShowModal={onShowModal} onLogout={logout} />
+            <MenuUser onShowModal={onShowModal} user={user} onLogout={logout} />
           </Grid.Column>
         </Grid>
       </Container>
@@ -71,18 +71,47 @@ function MenuPlatforms() {
 }
 
 function MenuUser(props) {
-  const { onLogout, onShowModal } = props;
+  const { user, onLogout, onShowModal } = props;
 
   return (
     <MenuSUI>
-      <MenuSUI.Item onClick={onShowModal} as="a">
-        <Icon name="user outline" />
-        My account
-      </MenuSUI.Item>
-      <MenuSUI.Item onClick={onLogout} as="a">
-        <Icon name="sign-out" />
-        Logout
-      </MenuSUI.Item>
+      {user ? (
+        <>
+          <Link href="/orders">
+            <MenuSUI.Item as="a">
+              <Icon name="game" />
+              My orders
+            </MenuSUI.Item>
+          </Link>
+          <Link href="/wishlist">
+            <MenuSUI.Item as="a">
+              <Icon name="heart" />
+              Wishlist
+            </MenuSUI.Item>
+          </Link>
+          <Link href="/account">
+            <MenuSUI.Item as="a">
+              <Icon name="user" />
+              Hello, {user.username}
+            </MenuSUI.Item>
+          </Link>
+          <Link href="/cart">
+            <MenuSUI.Item as="a" className="m-0">
+              <Icon name="cart" />
+            </MenuSUI.Item>
+          </Link>
+          <MenuSUI.Item onClick={onLogout} as="a" className="m-0">
+            <Icon name="power off" />
+          </MenuSUI.Item>
+        </>
+      ) : (
+        <>
+          <MenuSUI.Item onClick={onShowModal} as="a">
+            <Icon name="sign-in" />
+            Sign in
+          </MenuSUI.Item>
+        </>
+      )}
     </MenuSUI>
   );
 }
