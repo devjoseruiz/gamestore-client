@@ -49,7 +49,12 @@ export default function ChangeNameForm(props) {
             error={formik.errors.lastname}
           />
         </Form.Group>
-        <Button type="submit" className="submit" loading={loading}>
+        <Button
+          type="submit"
+          className="submit"
+          loading={loading}
+          disabled={loading}
+        >
           Update
         </Button>
       </Form>

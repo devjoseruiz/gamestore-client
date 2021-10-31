@@ -85,3 +85,20 @@ export async function updateNameApi(userId, data, logout) {
     return null;
   }
 }
+
+export async function updateEmailApi(userId, email, logout) {
+  try {
+    const url = `${server_address}:${server_port}/users/${userId}`;
+    const params = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    };
+    const result = await authFecth(url, params, logout);
+    return result ? result : null;
+  } catch (error) {
+    return null;
+  }
+}
