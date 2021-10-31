@@ -1,0 +1,16 @@
+@import "./colors.scss";
+
+// Layouts
+@import "../layouts/BaseLayout/BaseLayout.scss";
+
+// Pages
+@import "../pages/account.scss";
+
+// Components
+@import "../components/Header/Header.scss";
+@import "../components/Header/TopBar/TopBar.scss";
+@import "../components/Header/Menu/Menu.scss";
+@import "../components/Modal/BaseModal/BaseModal.scss";
+@import "../components/Account/ChangeNameForm/ChangeNameForm.scss";
+@import "../components/Account/ChangeEmailForm/ChangeEmailForm.scss";
+@import "../components/Account/ChangePasswordForm/ChangePasswordForm.scss";
