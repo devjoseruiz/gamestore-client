@@ -92,7 +92,7 @@ function MenuUser(props) {
           <Link href="/account">
             <MenuSUI.Item as="a">
               <Icon name="user" />
-              Hello, {user.username}
+              Hello, {user.name}
             </MenuSUI.Item>
           </Link>
           <Link href="/cart">

@@ -2,12 +2,12 @@ import getConfig from "next/config";
 import { authFecth } from "./token";
 
 const {
-  publicRuntimeConfig: { host, port },
+  publicRuntimeConfig: { server_address, server_port },
 } = getConfig();
 
 export async function registerApi(formData) {
   try {
-    const url = `${host}:${port}/auth/local/register`;
+    const url = `${server_address}:${server_port}/auth/local/register`;
     const params = {
       method: "POST",
       headers: {
@@ -25,7 +25,7 @@ export async function registerApi(formData) {
 
 export async function loginApi(formData) {
   try {
-    const url = `${host}:${port}/auth/local`;
+    const url = `${server_address}:${server_port}/auth/local`;
     const params = {
       method: "POST",
       headers: {
@@ -43,7 +43,7 @@ export async function loginApi(formData) {
 
 export async function resetPasswordApi(email) {
   try {
-    const url = `${host}:${port}/auth/forgot-password`;
+    const url = `${server_address}:${server_port}/auth/forgot-password`;
     const params = {
       method: "POST",
       headers: {
@@ -61,8 +61,25 @@ export async function resetPasswordApi(email) {
 
 export async function getMeApi(logout) {
   try {
-    const url = `${host}:${port}/users/me`;
+    const url = `${server_address}:${server_port}/users/me`;
     const result = await authFecth(url, null, logout);
+    return result ? result : null;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function updateNameApi(userId, data, logout) {
+  try {
+    const url = `${server_address}:${server_port}/users/${userId}`;
+    const params = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+    const result = await authFecth(url, params, logout);
     return result ? result : null;
   } catch (error) {
     return null;
