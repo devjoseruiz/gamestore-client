@@ -102,3 +102,20 @@ export async function updateEmailApi(userId, email, logout) {
     return null;
   }
 }
+
+export async function updatePasswordApi(userId, password, logout) {
+  try {
+    const url = `${server_address}:${server_port}/users/${userId}`;
+    const params = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ password }),
+    };
+    const result = await authFecth(url, params, logout);
+    return result ? result : null;
+  } catch (error) {
+    return null;
+  }
+}
