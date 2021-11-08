@@ -21,3 +21,14 @@ export async function createAddressApi(address, logout) {
     return null;
   }
 }
+
+export async function getAddressesApi(idUser, logout) {
+  try {
+    const url = `${server_address}:${server_port}/addresses?user=${idUser}`;
+    const result = await authFecth(url, null, logout);
+    if (result?.statusCode === 500) throw "Server error";
+    return result ? result : null;
+  } catch (error) {
+    return null;
+  }
+}

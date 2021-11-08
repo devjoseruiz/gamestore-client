@@ -9,6 +9,7 @@ import ChangeEmailForm from "../components/Account/ChangeEmailForm";
 import ChangePasswordForm from "../components/Account/ChangePasswordForm";
 import BaseModal from "../components/Modal/BaseModal";
 import AddressForm from "../components/Account/AddressForm";
+import AddressList from "../components/Account/AddressList/AddressList";
 
 export default function Account() {
   const [user, setUser] = useState(undefined);
@@ -81,7 +82,7 @@ function Addresses() {
         <Icon name="plus" link onClick={() => openModal("New address")} />
       </div>
       <div className="data">
-        <p>Addresses list</p>
+        <AddressList />
       </div>
 
       <BaseModal
