@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Button } from "semantic-ui-react";
+import { toast } from "react-toastify";
 import { map, size } from "lodash";
-import { getAddressesApi } from "../../../api/address";
+import { getAddressesApi, deleteAddressApi } from "../../../api/address";
 import useAuth from "../../../hooks/useAuth";
 
 export default function AddressList(props) {
@@ -27,7 +28,11 @@ export default function AddressList(props) {
         <Grid>
           {map(addresses, (address) => (
             <Grid.Column key={address.id} mobile={16} tablet={8} computer={4}>
-              <Address address={address} />
+              <Address
+                address={address}
+                logout={logout}
+                setReloadAddresses={setReloadAddresses}
+              />
             </Grid.Column>
           ))}
         </Grid>
@@ -37,8 +42,24 @@ export default function AddressList(props) {
 }
 
 function Address(props) {
-  const { address } = props;
-  console.log(address);
+  const { address, logout, setReloadAddresses } = props;
+  const [loading, setLoading] = useState(false);
+
+  const deleteAddress = async () => {
+    setLoading(true);
+    const response = await deleteAddressApi(address._id, logout);
+    if (!response) {
+      toast.error("Error deleting address", {
+        theme: "colored",
+      });
+    } else {
+      toast.success("Address deleted!", {
+        theme: "colored",
+      });
+      setReloadAddresses(true);
+    }
+    setLoading(false);
+  };
 
   return (
     <div className="address-item">
@@ -52,7 +73,9 @@ function Address(props) {
 
       <div className="actions">
         <Button primary>Edit</Button>
-        <Button>Delete</Button>
+        <Button onClick={deleteAddress} loading={loading} disabled={loading}>
+          Delete
+        </Button>
       </div>
     </div>
   );

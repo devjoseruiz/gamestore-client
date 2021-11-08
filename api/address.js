@@ -32,3 +32,20 @@ export async function getAddressesApi(idUser, logout) {
     return null;
   }
 }
+
+export async function deleteAddressApi(idAddress, logout) {
+  try {
+    const url = `${server_address}:${server_port}/addresses/${idAddress}`;
+    const params = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const result = await authFecth(url, params, logout);
+    if (result?.statusCode === 500) throw "Server error";
+    return result ? result : null;
+  } catch (error) {
+    return null;
+  }
+}
