@@ -49,3 +49,20 @@ export async function deleteAddressApi(idAddress, logout) {
     return null;
   }
 }
+
+export async function updateAddressApi(idAddress, address, logout) {
+  try {
+    const url = `${server_address}:${server_port}/addresses/${idAddress}`;
+    const params = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(address),
+    };
+    const result = await authFecth(url, params, logout);
+    return result ? result : null;
+  } catch (error) {
+    return null;
+  }
+}

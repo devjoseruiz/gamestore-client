@@ -5,19 +5,23 @@ import * as Yup from "yup";
 import "yup-phone";
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
-import { createAddressApi } from "../../../api/address";
+import { createAddressApi, updateAddressApi } from "../../../api/address";
 
 export default function AddressForm(props) {
-  const { setShowModal, setReloadAddresses } = props;
+  const { setShowModal, setReloadAddresses, newAddress, address } = props;
 
   const [loading, setLoading] = useState(false);
   const { auth, logout } = useAuth();
 
   const formik = useFormik({
-    initialValues: initialValues(),
+    initialValues: initialValues(address),
     validationSchema: Yup.object(validationSchema()),
     onSubmit: async (formData) => {
-      createAddress(formData);
+      if (newAddress) {
+        createAddress(formData);
+      } else {
+        updateAddress(formData);
+      }
     },
   });
 
@@ -35,6 +39,29 @@ export default function AddressForm(props) {
       });
     } else {
       toast.success("New address added!", {
+        theme: "colored",
+      });
+      formik.resetForm();
+      setReloadAddresses(true);
+      setShowModal(false);
+    }
+
+    setLoading(false);
+  };
+
+  const updateAddress = async (formData) => {
+    setLoading(true);
+    const formDataTemp = {
+      ...formData,
+      user: auth.idUser,
+    };
+    const response = await updateAddressApi(address._id, formDataTemp, logout);
+    if (!response) {
+      toast.error("Error updating address", {
+        theme: "colored",
+      });
+    } else {
+      toast.success("Address updated!", {
         theme: "colored",
       });
       formik.resetForm();
@@ -124,22 +151,22 @@ export default function AddressForm(props) {
           loading={loading}
           disabled={loading}
         >
-          Add address
+          {newAddress ? "Add" : "Edit"} address
         </Button>
       </div>
     </Form>
   );
 }
 
-function initialValues() {
+function initialValues(address) {
   return {
-    title: "",
-    name: "",
-    address: "",
-    city: "",
-    state: "",
-    postalcode: "",
-    phone: "",
+    title: address?.title || "",
+    name: address?.name || "",
+    address: address?.address || "",
+    city: address?.city || "",
+    state: address?.state || "",
+    postalcode: address?.postalcode || "",
+    phone: address?.phone || "",
   };
 }
 
