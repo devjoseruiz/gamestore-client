@@ -8,7 +8,7 @@ import useAuth from "../../../hooks/useAuth";
 import { createAddressApi } from "../../../api/address";
 
 export default function AddressForm(props) {
-  const { setShowModal } = props;
+  const { setShowModal, setReloadAddresses } = props;
 
   const [loading, setLoading] = useState(false);
   const { auth, logout } = useAuth();
@@ -38,6 +38,7 @@ export default function AddressForm(props) {
         theme: "colored",
       });
       formik.resetForm();
+      setReloadAddresses(true);
       setShowModal(false);
     }
 
