@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Menu as MenuSUI,
-  Grid,
-  Icon,
-  Label,
-} from "semantic-ui-react";
+import { Container, Menu as MenuSUI, Grid, Icon } from "semantic-ui-react";
 import Link from "next/link";
 import BaseModal from "../../Modal/BaseModal";
 import Auth from "../../Auth";
 import useAuth from "../../../hooks/useAuth";
+import { map } from "lodash";
 import { getMeApi } from "../../../api/user";
+import { getPlatformsApi } from "../../../api/platform";
 
 export default function Menu() {
+  const [platforms, setPlatforms] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState("Sign in");
   const [user, setUser] = useState(undefined);
@@ -25,6 +22,13 @@ export default function Menu() {
     })();
   }, [auth]);
 
+  useEffect(() => {
+    (async () => {
+      const response = await getPlatformsApi();
+      setPlatforms(response || []);
+    })();
+  }, []);
+
   const onShowModal = () => setShowModal(true);
   const onCloseModal = () => setShowModal(false);
 
@@ -33,7 +37,7 @@ export default function Menu() {
       <Container>
         <Grid>
           <Grid.Column className="menu__left" width={6}>
-            <MenuPlatforms />
+            <MenuPlatforms platforms={platforms} />
           </Grid.Column>
           <Grid.Column className="menu__right" width={10}>
             <MenuUser onShowModal={onShowModal} user={user} onLogout={logout} />
@@ -51,21 +55,18 @@ export default function Menu() {
   );
 }
 
-function MenuPlatforms() {
+function MenuPlatforms(props) {
+  const { platforms } = props;
+
   return (
     <MenuSUI>
-      <Link href="/playstation">
-        <MenuSUI.Item as="a">PlayStation</MenuSUI.Item>
-      </Link>
-      <Link href="/xbox">
-        <MenuSUI.Item as="a">Xbox</MenuSUI.Item>
-      </Link>
-      <Link href="/switch">
-        <MenuSUI.Item as="a">Switch</MenuSUI.Item>
-      </Link>
-      <Link href="/pc">
-        <MenuSUI.Item as="a">PC</MenuSUI.Item>
-      </Link>
+      {map(platforms, (platform) => (
+        <Link href={`/games/${platform.url}`} key={platform._id}>
+          <MenuSUI.Item as="a" name={platform.url}>
+            {platform.title}
+          </MenuSUI.Item>
+        </Link>
+      ))}
     </MenuSUI>
   );
 }
