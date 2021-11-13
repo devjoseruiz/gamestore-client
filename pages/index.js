@@ -10,7 +10,7 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      const response = await getLastGamesApi(30);
+      const response = await getLastGamesApi(20);
       setGames(response || []);
     })();
   }, []);
