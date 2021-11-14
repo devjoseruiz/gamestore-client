@@ -47,3 +47,15 @@ export async function getTotalGamesByPlatformApi(platform) {
     return null;
   }
 }
+
+export async function getGameApi(game) {
+  try {
+    const res_game = `_url=${game}`;
+    const url = `${server_address}:${server_port}/games?${res_game}`;
+    const result = await axios.get(url);
+    if (result?.status === 500) throw "Server error";
+    return result.data[0];
+  } catch (error) {
+    return null;
+  }
+}
