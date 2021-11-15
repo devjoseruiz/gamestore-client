@@ -21,19 +21,23 @@ export async function getIsFavouriteGameApi(idUser, idGame, logout) {
 
 export async function createFavouriteApi(idUser, idGame, logout) {
   try {
-    const url = `${server_address}:${server_port}/favourites`;
-    const params = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: idUser,
-        game: idGame,
-      }),
-    };
-    const result = await authFecth(url, params, logout);
-    return result ? result : null;
+    const isFavourite = await getIsFavouriteGameApi(idUser, idGame, logout);
+
+    if (!size(isFavourite)) {
+      const url = `${server_address}:${server_port}/favourites`;
+      const params = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: idUser,
+          game: idGame,
+        }),
+      };
+      const result = await authFecth(url, params, logout);
+      return result ? result : null;
+    } else return null;
   } catch (error) {
     return null;
   }
