@@ -62,3 +62,19 @@ export async function deleteFavouriteApi(idUser, idGame, logout) {
     return null;
   }
 }
+
+export async function getFavouritesByUserApi(idUser, logout, limit, start) {
+  try {
+    const res_user = `_user=${idUser}`;
+    const res_limit = `_limit=${limit}`;
+    const res_start = `_start=${start}`;
+    const url =
+      `${server_address}:${server_port}/favourites?` +
+      `${res_user}&${res_limit}&${res_start}`;
+    const result = await authFecth(url, null, logout);
+    if (result?.statusCode === 500) throw "Server error";
+    return result ? result : null;
+  } catch (error) {
+    return null;
+  }
+}
