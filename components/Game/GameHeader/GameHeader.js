@@ -1,5 +1,12 @@
+import React, { useState, useEffect } from "react";
 import { Grid, Image, Icon, Button } from "semantic-ui-react";
 import moment from "moment";
+import useAuth from "../../../hooks/useAuth";
+import {
+  getIsFavouriteGameApi,
+  createFavouriteApi,
+  deleteFavouriteApi,
+} from "../../../api/favourite";
 
 export default function GameHeader(props) {
   const { gameData } = props;
@@ -18,16 +25,65 @@ export default function GameHeader(props) {
 
 function Info(props) {
   const { gameData } = props;
+  const [isFavourite, setIsFavourite] = useState(false);
+  const { auth, logout } = useAuth();
   let gamePrice = gameData.price;
 
   if (gameData.discount)
     gamePrice -= ((gameData.price * gameData.discount) / 100).toFixed(2);
 
+  useEffect(() => {
+    (async () => {
+      if (auth) {
+        const response = await getIsFavouriteGameApi(
+          auth.idUser,
+          gameData.id,
+          logout
+        );
+        if (response) setIsFavourite(true);
+        else setIsFavourite(false);
+      }
+    })();
+  }, [gameData]);
+
+  const addFavourite = () => {
+    (async () => {
+      if (auth) {
+        const response = await createFavouriteApi(
+          auth.idUser,
+          gameData.id,
+          logout
+        );
+        if (response) setIsFavourite(true);
+      }
+    })();
+  };
+
+  const deleteFavourite = () => {
+    (async () => {
+      if (auth) {
+        const response = await deleteFavouriteApi(
+          auth.idUser,
+          gameData.id,
+          logout
+        );
+        if (response) setIsFavourite(false);
+      }
+    })();
+  };
+
   return (
     <>
       <div className="game-header__title">
         {gameData.title}
-        <Icon name="heart" link />
+        {auth && (
+          <Icon
+            className={`${isFavourite && "like"}`}
+            name={!isFavourite ? "heart outline" : "heart"}
+            link
+            onClick={isFavourite ? deleteFavourite : addFavourite}
+          />
+        )}
       </div>
 
       <div className="game-header__summary">
