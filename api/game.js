@@ -59,3 +59,15 @@ export async function getGameApi(game) {
     return null;
   }
 }
+
+export async function getSearchGameApi(game) {
+  try {
+    const res_game = `_q=${game}`;
+    const url = `${server_address}:${server_port}/games?${res_game}`;
+    const result = await axios.get(url);
+    if (result?.status === 500) throw "Server error";
+    return result.data;
+  } catch (error) {
+    return null;
+  }
+}
