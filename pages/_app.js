@@ -3,6 +3,7 @@ import { ToastContainer } from "react-toastify";
 import jwtDecode from "jwt-decode";
 import { useRouter } from "next/router";
 import AuthContext from "../context/AuthContext";
+import CartContext from "../context/CartContext";
 import { setToken, getToken, removeToken } from "../api/token";
 import "../scss/global.scss";
 import "semantic-ui-css/semantic.min.css";
@@ -54,22 +55,35 @@ export default function MyApp({ Component, pageProps }) {
     [auth]
   );
 
+  const cartData = useMemo(
+    () => ({
+      countProductsInCart: 0,
+      addProductToCart: () => null,
+      getProductsFromCart: () => null,
+      removeProductFromCart: () => null,
+      removeAllProductsFromCart: () => null,
+    }),
+    []
+  );
+
   if (auth === undefined) return null;
 
   return (
     <AuthContext.Provider value={authData}>
-      <Component {...pageProps} />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable
-        pauseOnHover
-      />
+      <CartContext.Provider value={cartData}>
+        <Component {...pageProps} />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover
+        />
+      </CartContext.Provider>
     </AuthContext.Provider>
   );
 }
