@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import jwtDecode from "jwt-decode";
 import { useRouter } from "next/router";
 import AuthContext from "../context/AuthContext";
 import CartContext from "../context/CartContext";
 import { setToken, getToken, removeToken } from "../api/token";
-import { getProductsFromCartApi } from "../api/cart";
+import { getProductsFromCartApi, addProductToCartApi } from "../api/cart";
 import "../scss/global.scss";
 import "semantic-ui-css/semantic.min.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -56,10 +56,20 @@ export default function MyApp({ Component, pageProps }) {
     [auth]
   );
 
+  const checkBeforeAddProduct = (auth, product) => {
+    if (auth) {
+      addProductToCartApi(product);
+    } else {
+      toast.error("You must be logged in!", {
+        theme: "colored",
+      });
+    }
+  };
+
   const cartData = useMemo(
     () => ({
       countProductsInCart: 0,
-      addProductToCart: () => null,
+      addProductToCart: (product) => checkBeforeAddProduct(auth, product),
       getProductsFromCart: () => getProductsFromCartApi,
       removeProductFromCart: () => null,
       removeAllProductsFromCart: () => null,
