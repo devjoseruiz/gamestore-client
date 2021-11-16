@@ -68,8 +68,9 @@ export default function MyApp({ Component, pageProps }) {
     setReloadCart(false);
   }, [reloadCart, auth]);
 
-  const checkBeforeAddProduct = (auth, product) => {
-    if (auth) {
+  const checkBeforeAddProduct = (product) => {
+    const token = getToken();
+    if (token) {
       addProductToCartApi(product);
       setReloadCart(true);
     } else {
@@ -79,8 +80,9 @@ export default function MyApp({ Component, pageProps }) {
     }
   };
 
-  const checkBeforeRemoveProduct = (auth, product) => {
-    if (auth) {
+  const checkBeforeRemoveProduct = (product) => {
+    const token = getToken();
+    if (token) {
       removeProductFromCartApi(product);
       setReloadCart(true);
     } else {
@@ -93,10 +95,9 @@ export default function MyApp({ Component, pageProps }) {
   const cartData = useMemo(
     () => ({
       countProductsInCart: totalProductsInCart,
-      addProductToCart: (product) => checkBeforeAddProduct(auth, product),
+      addProductToCart: (product) => checkBeforeAddProduct(product),
       getProductsFromCart: () => getProductsFromCartApi(),
-      removeProductFromCart: (product) =>
-        checkBeforeRemoveProduct(auth, product),
+      removeProductFromCart: (product) => checkBeforeRemoveProduct(product),
       removeAllProductsFromCart: () => null,
     }),
     [totalProductsInCart]
