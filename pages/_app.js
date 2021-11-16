@@ -82,8 +82,8 @@ export default function MyApp({ Component, pageProps }) {
     () => ({
       countProductsInCart: totalProductsInCart,
       addProductToCart: (product) => checkBeforeAddProduct(auth, product),
-      getProductsFromCart: () => getProductsFromCartApi,
-      removeProductFromCart: () => null,
+      getProductsFromCart: () => getProductsFromCartApi(),
+      removeProductFromCart: (product) => console.log(product),
       removeAllProductsFromCart: () => null,
     }),
     [totalProductsInCart]
