@@ -9,6 +9,7 @@ import {
   getProductsFromCartApi,
   addProductToCartApi,
   countProductsInCartApi,
+  removeProductFromCartApi,
 } from "../api/cart";
 import "../scss/global.scss";
 import "semantic-ui-css/semantic.min.css";
@@ -78,12 +79,24 @@ export default function MyApp({ Component, pageProps }) {
     }
   };
 
+  const checkBeforeRemoveProduct = (auth, product) => {
+    if (auth) {
+      removeProductFromCartApi(product);
+      setReloadCart(true);
+    } else {
+      toast.error("You must be logged in!", {
+        theme: "colored",
+      });
+    }
+  };
+
   const cartData = useMemo(
     () => ({
       countProductsInCart: totalProductsInCart,
       addProductToCart: (product) => checkBeforeAddProduct(auth, product),
       getProductsFromCart: () => getProductsFromCartApi(),
-      removeProductFromCart: (product) => console.log(product),
+      removeProductFromCart: (product) =>
+        checkBeforeRemoveProduct(auth, product),
       removeAllProductsFromCart: () => null,
     }),
     [totalProductsInCart]

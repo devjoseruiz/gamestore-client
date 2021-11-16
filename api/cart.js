@@ -1,16 +1,10 @@
-import getConfig from "next/config";
-import { authFecth } from "./token";
 import { size, includes, remove } from "lodash";
 import { toast } from "react-toastify";
-
-const {
-  publicRuntimeConfig: { server_address, server_port },
-} = getConfig();
 
 export function getProductsFromCartApi() {
   const cart = localStorage.getItem("cart");
 
-  if (!cart) return null;
+  if (!cart) return [];
 
   const products = cart.split(",");
   return products;
@@ -43,4 +37,18 @@ export function countProductsInCartApi() {
   if (!cart) return 0;
 
   return size(cart);
+}
+
+export function removeProductFromCartApi(item) {
+  const cart = getProductsFromCartApi();
+
+  remove(cart, (product) => {
+    return product === item;
+  });
+
+  if (size(cart) > 0) {
+    localStorage.setItem("cart", cart);
+  } else {
+    localStorage.removeItem("cart");
+  }
 }
