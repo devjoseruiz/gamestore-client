@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Container, Menu as MenuSUI, Grid, Icon } from "semantic-ui-react";
+import {
+  Container,
+  Menu as MenuSUI,
+  Grid,
+  Icon,
+  Label,
+} from "semantic-ui-react";
 import Link from "next/link";
 import BaseModal from "../../Modal/BaseModal";
 import Auth from "../../Auth";
 import useAuth from "../../../hooks/useAuth";
+import useCart from "../../../hooks/useCart";
 import { map } from "lodash";
 import { getMeApi } from "../../../api/user";
 import { getPlatformsApi } from "../../../api/platform";
@@ -73,6 +80,7 @@ function MenuPlatforms(props) {
 
 function MenuUser(props) {
   const { user, onLogout, onShowModal } = props;
+  const { countProductsInCart } = useCart();
 
   return (
     <MenuSUI>
@@ -99,6 +107,9 @@ function MenuUser(props) {
           <Link href="/cart">
             <MenuSUI.Item as="a" className="m-0">
               <Icon name="cart" />
+              <Label color="red" floating circular>
+                {countProductsInCart}
+              </Label>
             </MenuSUI.Item>
           </Link>
           <MenuSUI.Item onClick={onLogout} as="a" className="m-0">

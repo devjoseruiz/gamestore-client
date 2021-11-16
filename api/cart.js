@@ -36,3 +36,11 @@ export function addProductToCartApi(product) {
     }
   }
 }
+
+export function countProductsInCartApi() {
+  const cart = getProductsFromCartApi();
+
+  if (!cart) return 0;
+
+  return size(cart);
+}
