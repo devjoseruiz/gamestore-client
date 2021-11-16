@@ -9,6 +9,7 @@
 @import "../pages/games/platform.scss";
 @import "../pages/wishlist.scss";
 @import "../pages/search.scss";
+@import "../pages/cart.scss";
 
 // Components
 @import "../components/Header/Header.scss";
@@ -25,3 +26,5 @@
 @import "../components/Game/GameTabs/GameTabs.scss";
 @import "../components/Game/GameInfo/GameInfo.scss";
 @import "../components/Game/Screenshots/Screenshots.scss";
+@import "../components/Cart/CartSummary/CartSummary.scss";
+@import "../components/Cart/ShippingAddress/ShippingAddress.scss";

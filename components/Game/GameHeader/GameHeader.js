@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Grid, Image, Icon, Button } from "semantic-ui-react";
 import moment from "moment";
 import useAuth from "../../../hooks/useAuth";
+import useCart from "../../../hooks/useCart";
 import {
   getIsFavouriteGameApi,
   createFavouriteApi,
@@ -27,6 +28,7 @@ function Info(props) {
   const { gameData } = props;
   const [isFavourite, setIsFavourite] = useState(false);
   const { auth, logout } = useAuth();
+  const { addProductToCart } = useCart();
   let gamePrice = gameData.price;
 
   if (gameData.discount)
@@ -102,7 +104,12 @@ function Info(props) {
             <p>{gamePrice}$</p>
           </div>
         </div>
-        <Button className="game-header__buy-btn">Buy</Button>
+        <Button
+          className="game-header__buy-btn"
+          onClick={() => addProductToCart(gameData.url)}
+        >
+          Buy
+        </Button>
       </div>
     </>
   );
