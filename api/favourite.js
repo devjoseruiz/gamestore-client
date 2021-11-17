@@ -1,5 +1,5 @@
 import getConfig from "next/config";
-import { authFecth } from "./token";
+import { authFetch } from "./token";
 import { size } from "lodash";
 
 const {
@@ -11,7 +11,7 @@ export async function getIsFavouriteGameApi(idUser, idGame, logout) {
     const res_user = `user=${idUser}`;
     const res_game = `game=${idGame}`;
     const url = `${server_address}:${server_port}/favourites?${res_user}&${res_game}`;
-    const result = await authFecth(url, null, logout);
+    const result = await authFetch(url, null, logout);
     if (result?.statusCode === 500) throw "Server error";
     return result ? result[0] : null;
   } catch (error) {
@@ -35,7 +35,7 @@ export async function createFavouriteApi(idUser, idGame, logout) {
           game: idGame,
         }),
       };
-      const result = await authFecth(url, params, logout);
+      const result = await authFetch(url, params, logout);
       return result ? result : null;
     } else return null;
   } catch (error) {
@@ -54,7 +54,7 @@ export async function deleteFavouriteApi(idUser, idGame, logout) {
           "Content-Type": "application/json",
         },
       };
-      const result = await authFecth(url, params, logout);
+      const result = await authFetch(url, params, logout);
       if (result?.statusCode === 500) throw "Server error";
       return result ? result : null;
     } else return null;
@@ -71,7 +71,7 @@ export async function getFavouritesByUserApi(idUser, logout, limit, start) {
     const url =
       `${server_address}:${server_port}/favourites?` +
       `${res_user}&${res_limit}&${res_start}`;
-    const result = await authFecth(url, null, logout);
+    const result = await authFetch(url, null, logout);
     if (result?.statusCode === 500) throw "Server error";
     return result ? result : null;
   } catch (error) {

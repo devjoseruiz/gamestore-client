@@ -1,5 +1,5 @@
 import getConfig from "next/config";
-import { authFecth } from "./token";
+import { authFetch } from "./token";
 
 const {
   publicRuntimeConfig: { server_address, server_port },
@@ -62,7 +62,7 @@ export async function resetPasswordApi(email) {
 export async function getMeApi(logout) {
   try {
     const url = `${server_address}:${server_port}/users/me`;
-    const result = await authFecth(url, null, logout);
+    const result = await authFetch(url, null, logout);
     return result ? result : null;
   } catch (error) {
     return null;
@@ -79,7 +79,7 @@ export async function updateNameApi(userId, data, logout) {
       },
       body: JSON.stringify(data),
     };
-    const result = await authFecth(url, params, logout);
+    const result = await authFetch(url, params, logout);
     return result ? result : null;
   } catch (error) {
     return null;
@@ -96,7 +96,7 @@ export async function updateEmailApi(userId, email, logout) {
       },
       body: JSON.stringify({ email }),
     };
-    const result = await authFecth(url, params, logout);
+    const result = await authFetch(url, params, logout);
     return result ? result : null;
   } catch (error) {
     return null;
@@ -113,7 +113,7 @@ export async function updatePasswordApi(userId, password, logout) {
       },
       body: JSON.stringify({ password }),
     };
-    const result = await authFecth(url, params, logout);
+    const result = await authFetch(url, params, logout);
     return result ? result : null;
   } catch (error) {
     return null;
