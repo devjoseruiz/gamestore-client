@@ -2,6 +2,10 @@
 
 This is a frontent project for a videogames store made with ReactJS, JavaScript, SASS, Semantic UI and NextJS. In the server side it uses Strapi.
 
+## Demo site
+
+You can test a demo site [here](https://gamestore-ecommerce.netlify.app/).
+
 ## Getting Started
 
 First, rename the ".env.local.example" file to ".env.local" and edit the parameters pointing to your server.
