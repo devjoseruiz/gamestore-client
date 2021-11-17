@@ -5,6 +5,7 @@ import { size } from "lodash";
 import useCart from "../hooks/useCart";
 import CartSummary from "../components/Cart/CartSummary";
 import ShippingAddress from "../components/Cart/ShippingAddress";
+import Payment from "../components/Cart/Payment";
 
 export default function Cart() {
   const { getProductsFromCart } = useCart();
@@ -49,6 +50,9 @@ function FullCart(props) {
         setReloadCart={setReloadCart}
       />
       <ShippingAddress setSelectedAddress={setSelectedAddress} />
+      {selectedAddress && (
+        <Payment products={products} address={selectedAddress} />
+      )}
     </BaseLayout>
   );
 }
