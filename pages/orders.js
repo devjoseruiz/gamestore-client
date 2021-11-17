@@ -53,6 +53,7 @@ function Order(props) {
   const { orderData } = props;
   const { game, payment, createdAt, shipping_address } = orderData;
   const { title, poster, url } = game;
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
@@ -73,10 +74,41 @@ function Order(props) {
             <p className="item__other-date">
               {moment(createdAt).format("L")} - {moment(createdAt).format("LT")}
             </p>
-            <Icon name="eye" circular link />
+            <Icon name="eye" circular link onClick={() => setShowModal(true)} />
           </div>
         </div>
       </div>
+
+      <AddressModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        title={title}
+        shipping_address={shipping_address}
+      />
     </>
+  );
+}
+
+function AddressModal(props) {
+  const { showModal, setShowModal, title, shipping_address } = props;
+  const { name, address, state, city, postalcode, phone } = shipping_address;
+
+  return (
+    <BaseModal
+      showModal={showModal}
+      setShowModal={setShowModal}
+      title={title}
+      size="tiny"
+    >
+      <h3>Sent to:</h3>
+      <div>
+        <p>{name}</p>
+        <p>{address}</p>
+        <p>
+          {state}, {city}, {postalcode}
+        </p>
+        <p>{phone}</p>
+      </div>
+    </BaseModal>
   );
 }

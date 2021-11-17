@@ -61,9 +61,9 @@ export function removeProductFromCartApi(item) {
 
 export async function paymentCartApi(token, products, idUser, address, logout) {
   try {
-    const addressShipping = address;
-    delete addressShipping.user;
-    delete addressShipping.createdAt;
+    const shippingAddress = address;
+    delete shippingAddress.user;
+    delete shippingAddress.createdAt;
 
     const url = `${server_address}:${server_port}/orders`;
     const params = {
@@ -75,13 +75,12 @@ export async function paymentCartApi(token, products, idUser, address, logout) {
         token,
         products,
         idUser,
-        addressShipping,
+        shippingAddress,
       }),
     };
     const result = await authFetch(url, params, logout);
     return result;
   } catch (error) {
-    console.log(error);
     return null;
   }
 }
