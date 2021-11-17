@@ -14,25 +14,4 @@
     box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.1);
     padding: 15px;
   }
-
-  .payment-form {
-    width: 60%;
-    margin: 0 auto;
-
-    .StripeElement {
-      padding: 15px;
-      border-radius: 0.25rem;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-      border: 1px solid $border-grey-light;
-    }
-
-    .ui.button {
-      margin-top: 15px;
-      padding: 15px;
-      background-color: $primary;
-      box-shadow: 0 10px -3px rgba(0, 0, 0, 0.2);
-      color: $font-light;
-      width: 100%;
-    }
-  }
 }

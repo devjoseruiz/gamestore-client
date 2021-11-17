@@ -51,7 +51,7 @@ function FullCart(props) {
       />
       <ShippingAddress setSelectedAddress={setSelectedAddress} />
       {selectedAddress && (
-        <Payment products={products} address={selectedAddress} />
+        <Payment products={productsData} address={selectedAddress} />
       )}
     </BaseLayout>
   );

@@ -1,12 +1,8 @@
+import React from "react";
 import getConfig from "next/config";
-import { Button } from "semantic-ui-react";
-import { useRouter } from "next/router";
-import { Elements, CardElement } from "@stripe/react-stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { toast } from "react-toastify";
-import { size } from "lodash";
-import useAuth from "../../../hooks/useAuth";
-import useCart from "../../../hooks/useCart";
+import FormPayment from "./FormPayment";
 
 const {
   publicRuntimeConfig: { stripe_token },
@@ -17,20 +13,12 @@ const stripePromise = loadStripe(stripe_token);
 export default function Payment(props) {
   const { products, address } = props;
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Doing payment!");
-  };
-
   return (
     <div className="payment">
       <div className="title">Payment</div>
       <div className="data">
         <Elements stripe={stripePromise}>
-          <form className="payment-form" onSubmit={handleSubmit}>
-            <CardElement />
-            <Button type="submit">Pay</Button>
-          </form>
+          <FormPayment products={products} address={address} />
         </Elements>
       </div>
     </div>

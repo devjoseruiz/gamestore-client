@@ -1,5 +1,11 @@
+import getConfig from "next/config";
+import { authFetch } from "./token";
 import { size, includes, remove } from "lodash";
 import { toast } from "react-toastify";
+
+const {
+  publicRuntimeConfig: { server_address, server_port },
+} = getConfig();
 
 export function getProductsFromCartApi() {
   const cart = localStorage.getItem("cart");
@@ -51,4 +57,35 @@ export function removeProductFromCartApi(item) {
   } else {
     localStorage.removeItem("cart");
   }
+}
+
+export async function paymentCartApi(token, products, idUser, address, logout) {
+  try {
+    const addressShipping = address;
+    delete addressShipping.user;
+    delete addressShipping.createdAt;
+
+    const url = `${server_address}:${server_port}/orders`;
+    const params = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token,
+        products,
+        idUser,
+        addressShipping,
+      }),
+    };
+    const result = await authFetch(url, params, logout);
+    return result;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export function removeAllProductsFromCartApi() {
+  localStorage.removeItem("cart");
 }
