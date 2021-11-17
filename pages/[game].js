@@ -4,6 +4,7 @@ import BaseLayout from "../layouts/BaseLayout";
 import GameHeader from "../components/Game/GameHeader";
 import GameTabs from "../components/Game/GameTabs";
 import { getGameApi } from "../api/game";
+import Seo from "../components/Seo";
 
 export default function Game() {
   const { query } = useRouter();
@@ -21,6 +22,7 @@ export default function Game() {
   return (
     <div className="game">
       <BaseLayout>
+        <Seo title={`${gameData.title} | Gamestore`} />
         <GameHeader gameData={gameData} />
         <GameTabs gameData={gameData} />
       </BaseLayout>

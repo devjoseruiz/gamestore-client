@@ -10,6 +10,7 @@ import ChangePasswordForm from "../components/Account/ChangePasswordForm";
 import BaseModal from "../components/Modal/BaseModal";
 import AddressForm from "../components/Account/AddressForm";
 import AddressList from "../components/Account/AddressList/AddressList";
+import Seo from "../components/Seo";
 
 export default function Account() {
   const [user, setUser] = useState(undefined);
@@ -31,6 +32,7 @@ export default function Account() {
 
   return (
     <BaseLayout className="account">
+      <Seo title={`${user.name} | Gamestore`} />
       <AccountSettings
         user={user}
         logout={logout}

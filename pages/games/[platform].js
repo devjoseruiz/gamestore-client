@@ -9,12 +9,17 @@ import {
 } from "../../api/game";
 import GamesList from "../../components/GamesList/GamesList";
 import Pagination from "../../components/Pagination/Pagination";
+import Seo from "../../components/Seo";
 
 export default function Platform() {
   const { query } = useRouter();
   const [games, setGames] = useState(null);
   const [totalGames, setTotalGames] = useState(0);
   const limitPerPage = 20;
+
+  const capitalize = (text) => {
+    return text.slice(0, 1).toUpperCase() + text.slice(1, text.length);
+  };
 
   const getStartItem = () => {
     const currentPage = parseInt(query.page);
@@ -47,6 +52,7 @@ export default function Platform() {
   return (
     <div className="platform">
       <BaseLayout>
+        <Seo title={`${capitalize(query.platform)} | Gamestore`} />
         {!games && <Loader active>Loadign games...</Loader>}
         {games && size(games) === 0 && (
           <div>

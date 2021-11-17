@@ -7,6 +7,7 @@ import { getFavouritesByUserApi } from "../api/favourite";
 import useAuth from "../hooks/useAuth";
 import GamesList from "../components/GamesList/GamesList";
 import Pagination from "../components/Pagination/Pagination";
+import Seo from "../components/Seo";
 
 export default function Platform() {
   const { query } = useRouter();
@@ -46,6 +47,7 @@ export default function Platform() {
   return (
     <div className="wishlist">
       <BaseLayout>
+        <Seo title="My wishlist | Gamestore" />
         {!games && <Loader active>Loadign games...</Loader>}
         {games && size(games) === 0 && (
           <div>

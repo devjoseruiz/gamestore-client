@@ -5,6 +5,7 @@ import { Loader } from "semantic-ui-react";
 import { getSearchGameApi } from "../api/game";
 import { size } from "lodash";
 import GamesList from "../components/GamesList";
+import Seo from "../components/Seo";
 
 export default function Search() {
   const { query } = useRouter();
@@ -26,6 +27,7 @@ export default function Search() {
   return (
     <div className="search">
       <BaseLayout>
+        <Seo title={`Searching for ${query.query || "..."} | Gamestore`} />
         {size(query.query) >= 3 && !matchGames && (
           <Loader active>Loadign games...</Loader>
         )}

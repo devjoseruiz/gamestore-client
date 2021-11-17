@@ -7,6 +7,7 @@ import BaseLayout from "../layouts/BaseLayout";
 import BaseModal from "../components/Modal/BaseModal";
 import { getOrdersApi } from "../api/order";
 import useAuth from "../hooks/useAuth";
+import Seo from "../components/Seo";
 
 export default function Orders() {
   const [orders, setOrders] = useState(null);
@@ -21,6 +22,7 @@ export default function Orders() {
 
   return (
     <BaseLayout className="orders">
+      <Seo title="My orders | Gamestore" />
       <div className="orders__block">
         <div className="title">My orders</div>
         <div className="data">
