@@ -1,5 +1,5 @@
 import getConfig from "next/config";
-import { authFecth } from "./token";
+import { authFetch } from "./token";
 
 const {
   publicRuntimeConfig: { server_address, server_port },
@@ -15,7 +15,7 @@ export async function createAddressApi(address, logout) {
       },
       body: JSON.stringify(address),
     };
-    const result = await authFecth(url, params, logout);
+    const result = await authFetch(url, params, logout);
     return result ? result : null;
   } catch (error) {
     return null;
@@ -25,7 +25,7 @@ export async function createAddressApi(address, logout) {
 export async function getAddressesApi(idUser, logout) {
   try {
     const url = `${server_address}:${server_port}/addresses?user=${idUser}`;
-    const result = await authFecth(url, null, logout);
+    const result = await authFetch(url, null, logout);
     if (result?.statusCode === 500) throw "Server error";
     return result ? result : null;
   } catch (error) {
@@ -42,7 +42,7 @@ export async function deleteAddressApi(idAddress, logout) {
         "Content-Type": "application/json",
       },
     };
-    const result = await authFecth(url, params, logout);
+    const result = await authFetch(url, params, logout);
     if (result?.statusCode === 500) throw "Server error";
     return result ? result : null;
   } catch (error) {
@@ -60,7 +60,7 @@ export async function updateAddressApi(idAddress, address, logout) {
       },
       body: JSON.stringify(address),
     };
-    const result = await authFecth(url, params, logout);
+    const result = await authFetch(url, params, logout);
     return result ? result : null;
   } catch (error) {
     return null;

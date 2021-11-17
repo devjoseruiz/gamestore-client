@@ -24,7 +24,7 @@ export function hasTokenExpired(token) {
   return false;
 }
 
-export async function authFecth(url, params, logout) {
+export const authFetch = async (url, params, logout) => {
   const token = getToken();
 
   if (!token) {
@@ -50,4 +50,4 @@ export async function authFecth(url, params, logout) {
       }
     }
   }
-}
+};
